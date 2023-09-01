@@ -9,6 +9,7 @@ ENV WEBR_ROOT /opt/webr
 
 # Set CRAN repo
 COPY Rprofile /root/.Rprofile
+COPY Renviron /root/.Renviron
 
 # Install pak (and test load it)
 RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \

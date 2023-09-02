@@ -19,7 +19,7 @@ RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
 
 # Install old Matrix that works on R-4.3.0
 RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
-  -e 'pak::pkg_install("r-wasm/Matrix@webr-matrix-1.6-0")'
+  -e 'install.packages("MASS"); pak::pkg_install("r-wasm/Matrix@webr-matrix-1.6-0")'
 
 # Copy webr-repo scripts
 #COPY scripts /opt/webr-repo

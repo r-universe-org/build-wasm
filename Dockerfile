@@ -1,6 +1,8 @@
 ARG WEBR_VERSION=v0.2.0-rc.0
 FROM georgestagg/webr-build:${WEBR_VERSION}
 
+RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
+
 # Setup Node, Emscripten & webR
 ENV PATH /opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH
 ENV EMSDK /opt/emsdk

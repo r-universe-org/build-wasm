@@ -13,7 +13,7 @@ COPY Renviron /root/.Renviron
 
 # Install pak (and test load it)
 RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
-  -e 'install.packages("pak"); library(pak);'
+  -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); library(pak);'
 
 # Install old Matrix that works on R-4.3.0
 RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \

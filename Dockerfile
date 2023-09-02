@@ -10,8 +10,8 @@ ENV NVM_DIR /opt/nvm
 ENV WEBR_ROOT /opt/webr
 
 # Set CRAN repo
-COPY Rprofile /root/.Rprofile
-COPY Renviron /root/.Renviron
+COPY Rprofile /opt/webr/host/R-4.3.0/lib/R/etc/Rprofile.site
+COPY Renviron /opt/webr/host/R-4.3.0/lib/R/etc/Renviron.site
 
 # Install pak (and test load it)
 RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \

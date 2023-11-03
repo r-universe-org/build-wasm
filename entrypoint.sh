@@ -9,6 +9,14 @@ export R_VERSION=$R_VERSION_SHORT
 STARTDIR="$(pwd)"
 cd /opt/webr-repo
 
+# Some debugging output
+echo "::group::List available wasm libraries"
+PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_PATH="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --list-all
+echo "::endgroup::"
+echo "::group::Test that pkg-config works"
+PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_PATH="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --libs --cflags gdal
+echo "::endgroup::"
+
 # For the GitHub Action
 if [ "$SOURCEPKG" ]; then
 	$R_HOST/bin/R -e "pak::pkg_install('${STARTDIR}/${SOURCEPKG}')"

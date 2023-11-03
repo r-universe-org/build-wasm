@@ -1,5 +1,4 @@
-ARG WEBR_VERSION=v0.2.1
-FROM ghcr.io/r-wasm/webr:${WEBR_VERSION}
+FROM ghcr.io/r-wasm/webr:main
 
 RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
 
@@ -9,15 +8,15 @@ ENV EMSDK /opt/emsdk
 ENV WEBR_ROOT /opt/webr
 
 # Set CRAN repo
-COPY Rprofile /opt/webr/host/R-4.3.0/lib/R/etc/Rprofile.site
-COPY Renviron /opt/webr/host/R-4.3.0/lib/R/etc/Renviron.site
+COPY Renviron /etc/R/Renviron.site
+COPY Rprofile /etc/R/Rprofile.site
 
 # Install pak (and test load it)
-RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
+RUN /usr/bin/R \
   -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); library(pak);'
 
 # Install old Matrix that works on R-4.3.0
-RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
+RUN /usr/bin/R \
   -e 'install.packages(c("MASS", "Matrix"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
 
 # Copy webr-repo scripts

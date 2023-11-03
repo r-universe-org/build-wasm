@@ -2,7 +2,9 @@
 set -e
 #source ${NVM_DIR}/nvm.sh
 #export EM_NODE_JS=${NVM_BIN}/node
-export R_HOST="${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)"
+#export R_HOST="${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)"
+export R_HOST="/usr"
+
 export R_VERSION_SHORT=$(grep -Eo '[0-9]+\.[0-9]+' ${WEBR_ROOT}/R/R-VERSION)
 #export R_VERSION = $(cat $(WEBR_ROOT)/R/R-VERSION)
 export R_VERSION=$R_VERSION_SHORT

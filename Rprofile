@@ -7,7 +7,7 @@ local({
   rver <- getRversion()
   distro <- system2('lsb_release', '-sc', stdout = TRUE)
   options(HTTPUserAgent = sprintf("R/%s R (%s)", rver, paste(rver, R.version$platform, R.version$arch, R.version$os)))
-  options(repos = c(P3M = sprintf("https://packagemanager.posit.co/all/__linux__/%s/latest", distro), getOption("repos")))
+  options(repos = c(P3M = sprintf("https://p3m.dev/all/__linux__/%s/latest", distro), getOption("repos")))
 
   # Enable universe repo(s)
   my_universe <- Sys.getenv("MY_UNIVERSE")

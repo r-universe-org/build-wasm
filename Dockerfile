@@ -1,12 +1,11 @@
-ARG WEBR_VERSION=v0.2.0-rc.0
-FROM georgestagg/webr-build:${WEBR_VERSION}
+ARG WEBR_VERSION=v0.2.1
+FROM ghcr.io/r-wasm/webr:${WEBR_VERSION}
 
 RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
 
 # Setup Node, Emscripten & webR
 ENV PATH /opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH
 ENV EMSDK /opt/emsdk
-ENV NVM_DIR /opt/nvm
 ENV WEBR_ROOT /opt/webr
 
 # Set CRAN repo
@@ -19,15 +18,13 @@ RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
 
 # Install old Matrix that works on R-4.3.0
 RUN ${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)/bin/R \
-  -e 'install.packages("MASS"); pak::pkg_install("r-wasm/Matrix@webr-matrix-1.6-0")'
+  -e 'install.packages(c("MASS", "Matrix"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
 
 # Copy webr-repo scripts
 #COPY scripts /opt/webr-repo
 RUN git clone https://github.com/r-wasm/webr-repo /opt/webr-repo
 
 COPY entrypoint.sh /entrypoint.sh
-
-RUN chmod +x ${NVM_DIR}/nvm.sh
 
 # Build packages
 ENTRYPOINT /entrypoint.sh

@@ -14,16 +14,16 @@ cd /opt/webr-repo
 
 # Some debugging output
 echo "::group::List available wasm libraries"
-PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_PATH="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --list-all
+PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --list-all
 echo "::endgroup::"
 echo "::group::Test that pkg-config works"
-PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_PATH="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --libs --cflags gdal
+PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --libs --cflags gdal
 echo "::endgroup::"
 
 # For the GitHub Action
 if [ "$SOURCEPKG" ]; then
 	$R_HOST/bin/R -e "pak::pkg_install('${STARTDIR}/${SOURCEPKG}')"
-	PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_PATH="${WEBR_ROOT}/wasm/lib/pkgconfig" ./webr-build.sh "${STARTDIR}/${SOURCEPKG}"
+	PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" ./webr-build.sh "${STARTDIR}/${SOURCEPKG}"
 	BINARYPKG=${SOURCEPKG/.tar.gz/.tgz}
 	cp "repo/bin/emscripten/contrib/${R_VERSION}/${BINARYPKG}" $STARTDIR/
 	echo "binarypkg=$BINARYPKG" >> $GITHUB_OUTPUT
@@ -38,6 +38,6 @@ if ! compgen -G "/sources/*.tar.gz" > /dev/null; then
 fi
 for SOURCEPKG in /sources/*.tar.gz; do
 	$R_HOST/bin/R -e "pak::pkg_install('${SOURCEPKG}')"
-	PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_PATH="${WEBR_ROOT}/wasm/lib/pkgconfig" ./webr-build.sh $SOURCEPKG
+	PATH="${WEBR_ROOT}/wasm/bin:${PATH}" PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" ./webr-build.sh $SOURCEPKG
 done
 cp -Rfv repo /sources/

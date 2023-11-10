@@ -1,5 +1,4 @@
-#FROM ghcr.io/r-wasm/webr:main
-FROM ghcr.io/jeroen/webr:main
+FROM ghcr.io/r-wasm/webr:main
 
 RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
 

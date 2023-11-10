@@ -11,8 +11,8 @@ ENV WEBR_ROOT /opt/webr
 ENV R_LIBS_USER=/opt/R/current/lib/R/site-library
 
 # Set CRAN repo
-COPY Renviron /etc/R/Renviron.site
-COPY Rprofile /etc/R/Rprofile.site
+COPY Renviron /opt/R/current/lib/R/etc/Renviron.site
+COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 
 # Install pak (and test load it)
 RUN R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); library(pak);'

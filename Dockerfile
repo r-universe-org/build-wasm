@@ -1,6 +1,12 @@
 FROM ghcr.io/r-wasm/webr:main
 
-RUN apt-get update && apt-get install -y lsb-release && apt-get clean all
+# Upstream installs nodejs to build webr, but it conflicts with libv8-dev
+RUN rm /etc/apt/sources.list.d/nodesource.list && \
+	apt-get update && \
+	apt-get install -y lsb-release && \
+	apt-get remove -y nodejs && \
+	apt-get autoremove --purge && \
+	apt-get clean all
 
 # Setup Node, Emscripten & webR
 ENV PATH /opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH

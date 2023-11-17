@@ -26,7 +26,7 @@ RUN R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak
 RUN R -e 'install.packages(c("MASS", "Matrix"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
 
 # Copy webr-repo scripts
-RUN git clone https://github.com/r-wasm/webr-repo /opt/webr-repo
+RUN git clone https://github.com/r-universe-org/webr-repo /opt/webr-repo
 
 COPY entrypoint.sh /entrypoint.sh
 

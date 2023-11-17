@@ -5,7 +5,7 @@ set -e
 #export R_HOST="${WEBR_ROOT}/host/R-$(cat ${WEBR_ROOT}/R/R-VERSION)"
 #export R_HOST="/usr"
 export R_HOST="/opt/R/current"
-
+export R_CONFIGURE_FLAGS="--build=x86_64-pc-linux-gnu --host=wasm32-unknown-emscripten"
 export R_VERSION_SHORT=$(grep -Eo '[0-9]+\.[0-9]+' ${WEBR_ROOT}/R/R-VERSION)
 #export R_VERSION = $(cat $(WEBR_ROOT)/R/R-VERSION)
 export R_VERSION=$R_VERSION_SHORT

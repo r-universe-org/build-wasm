@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+R -e "download.packages(c('RcppArmadillo','sf','openssl', 'fftw', 'ragg'), '.', repos = 'https://cran.r-project.org')"
+/entrypoint.sh openssl*.tar.gz
+/entrypoint.sh fftw*.tar.gz
+/entrypoint.sh RcppArmadillo*.tar.gz
+/entrypoint.sh sf*.tar.gz
+/entrypoint.sh ragg*.tar.gz

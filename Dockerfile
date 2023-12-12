@@ -23,12 +23,17 @@ COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 RUN R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); library(pak);'
 
 # Install old Matrix that works on R-4.3.0
-RUN R -e 'install.packages(c("MASS", "Matrix"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
+RUN R -e 'install.packages(c("MASS", "Matrix", "remotes"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
 
-# Copy webr-repo scripts
-RUN git clone https://github.com/r-universe-org/webr-repo /opt/webr-repo
+# Install build tooling
+RUN R -e 'remotes::install_github("r-wasm/rwasm")'
 
+# Set default shell to bash
 COPY entrypoint.sh /entrypoint.sh
+RUN ln -sf /usr/bin/bash /bin/sh
+
+#COPY test.sh /test.sh
+#RUN /test.sh
 
 # Build packages
 ENTRYPOINT /entrypoint.sh

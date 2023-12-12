@@ -32,7 +32,7 @@ RUN R -e 'remotes::install_github("r-wasm/rwasm")'
 COPY entrypoint.sh /entrypoint.sh
 RUN ln -sf /usr/bin/bash /bin/sh
 
-#COPY test.sh /test.sh
+COPY test.sh /test.sh
 #RUN /test.sh
 
 # Build packages

@@ -1,6 +1,6 @@
 # Minimal wasm build image
 
-Simplified docker image to cross-compile R source packages into webassembly.
+Docker image to build R packages for webassembly.
 
 
 ## How to use

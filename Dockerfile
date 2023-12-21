@@ -1,5 +1,8 @@
 FROM ghcr.io/r-wasm/webr:main
 
+# Add some new unmerged libs
+RUN (cd /opt/webr/libs; git pull https://github.com/jeroen/webr; make libgit2 libarchive gsl glpk mpfr; rm -rf download build )
+
 # Upstream installs nodejs to build webr, but it conflicts with libnode-dev
 #RUN rm /etc/apt/sources.list.d/nodesource.list && \
 #	apt-get update && \

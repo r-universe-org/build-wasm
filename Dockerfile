@@ -41,7 +41,8 @@ RUN R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak
 RUN R -e 'install.packages(c("MASS", "Matrix", "remotes"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
 
 # Install build tooling
-RUN R -e 'remotes::install_github("r-wasm/rwasm")'
+#RUN R -e 'remotes::install_github("r-wasm/rwasm")'
+RUN R -e 'remotes::install_github("jeroen/rwasm")'
 
 # Set default shell to bash
 COPY entrypoint.sh /entrypoint.sh

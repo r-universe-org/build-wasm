@@ -23,6 +23,11 @@ RUN apt-get update && \
 	equivs-build libnode-dev && \
 	dpkg -i libnode-dev_99.0_all.deb
 
+# Install some common runtime libs
+RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
+	apt-get install -y --no-install-recommends $CRANLIBS && \
+	apt-get clean all
+
 # Setup Node, Emscripten & webR
 ENV PATH /opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH
 ENV EMSDK /opt/emsdk

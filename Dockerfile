@@ -50,5 +50,8 @@ RUN ln -sf /usr/bin/bash /bin/sh
 COPY test.sh /test.sh
 #RUN /test.sh
 
+# Hack for duckdb
+RUN sed -i 's|$(R_HOME)/bin/R|R|' $(R RHOME)/share/make/shlib.mk
+
 # Build packages
 ENTRYPOINT /entrypoint.sh

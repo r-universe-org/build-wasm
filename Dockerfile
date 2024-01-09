@@ -34,15 +34,9 @@ ENV R_LIBS_USER=/opt/R/current/lib/R/site-library
 COPY Renviron /opt/R/current/lib/R/etc/Renviron.site
 COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 
-# Install pak (and test load it)
-RUN R -e 'install.packages("pak", repos = sprintf("https://r-lib.github.io/p/pak/stable/%s/%s/%s", .Platform$pkgType, R.Version()$os, R.Version()$arch)); library(pak);'
-
-# Install old Matrix that works on R-4.3.0
-RUN R -e 'install.packages(c("MASS", "Matrix", "remotes"), repos = "https://p3m.dev/cran/__linux__/jammy/2023-08-14")'
-
-# Install build tooling
-#RUN R -e 'remotes::install_github("r-wasm/rwasm")'
-RUN R -e 'remotes::install_github("jeroen/rwasm")'
+# Install pak and rwasm
+RUN R -e 'install.packages("pak")'
+RUN R -e 'pak::pak("jeroen/rwasm")'
 
 # Set default shell to bash
 COPY entrypoint.sh /entrypoint.sh

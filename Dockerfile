@@ -21,7 +21,8 @@ RUN apt-get update && \
 	sed -i 's/# Replaces:.*/Replaces: libv8-dev/' libnode-dev && \
 	sed -i 's/# Version:.*/Version: 99.0/' libnode-dev && \
 	equivs-build libnode-dev && \
-	dpkg -i libnode-dev_99.0_all.deb
+	dpkg -i libnode-dev_99.0_all.deb && \
+	rm -Rf libnode*
 
 # Install some common runtime libs
 RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\

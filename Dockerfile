@@ -42,7 +42,7 @@ COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 
 # Install pak and rwasm
 RUN R -e 'install.packages("pak")'
-RUN R -e 'pak::pak("jeroen/rwasm")'
+RUN R -e 'pak::pak("r-wasm/rwasm")'
 
 # Set default shell to bash
 COPY entrypoint.sh /entrypoint.sh

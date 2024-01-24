@@ -26,7 +26,7 @@ RUN apt-get update && \
 
 # Install some common runtime libs
 RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
-	apt-get install -y --no-install-recommends $CRANLIBS && \
+	apt-get install -y --no-install-recommends xvfb $CRANLIBS && \
 	apt-get clean all
 
 # Setup Node, Emscripten & webR

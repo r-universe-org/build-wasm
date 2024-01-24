@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# start fake X server (for e.g. gWidgets2tcltk)
+nohup Xvfb :6 -screen 0 1280x1024x24 > ~/X.log 2>&1 &
+export DISPLAY=:6
+echo "Running fake X server on $DISPLAY"
+
 #export PATH="${WEBR_ROOT}/wasm/bin:${PATH}"
 SOURCEPKG="${1:-$SOURCEPKG}"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/stdout}

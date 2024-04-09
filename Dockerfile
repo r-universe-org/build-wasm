@@ -1,4 +1,4 @@
-FROM ghcr.io/r-wasm/webr:main
+FROM ghcr.io/r-wasm/webr:v0.3.2
 
 # Add some new unmerged libs
 # RUN (cd /opt/webr/libs; git pull https://github.com/jeroen/webr nlopt; make nlopt; rm -rf download build )
@@ -52,7 +52,7 @@ COPY test.sh /test.sh
 #RUN /test.sh
 
 # Hack for duckdb
-RUN sed -i 's|$(R_HOME)/bin/R|R|' $(R RHOME)/share/make/shlib.mk
+# RUN sed -i 's|$(R_HOME)/bin/R|R|' $(R RHOME)/share/make/shlib.mk
 
 # Build packages
 ENTRYPOINT /entrypoint.sh

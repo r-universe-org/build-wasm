@@ -9,6 +9,6 @@ outputs:
     description: 'Filename of the wasm binary package (if successful)'
 runs:
   using: 'docker'
-  image: 'docker://ghcr.io/r-universe-org/build-wasm'
+  image: 'docker://ghcr.io/r-universe-org/build-wasm:4.3'
   env:
     SOURCEPKG: ${{ inputs.sourcepkg }}

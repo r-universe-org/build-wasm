@@ -1,4 +1,4 @@
-FROM ghcr.io/r-wasm/webr:v0.3.2
+FROM ghcr.io/r-universe-org/webr:main
 
 # Add some new unmerged libs
 # RUN (cd /opt/webr/libs; git pull https://github.com/jeroen/webr nlopt; make nlopt; rm -rf download build )
@@ -25,7 +25,7 @@ RUN apt-get update && \
 	rm -Rf libnode*
 
 # Install some common runtime libs
-RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
+RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps/noble | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
 	apt-get install -y --no-install-recommends xvfb $CRANLIBS && \
 	apt-get clean all
 

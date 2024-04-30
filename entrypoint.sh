@@ -26,6 +26,8 @@ echo "::endgroup::"
 
 # For the GitHub Action
 if [ "$SOURCEPKG" ]; then
+	# Workaround for pak resolver hangs
+	R -e "install.packages(sub('_.*', '', '${SOURCEPKG}'), depends=TRUE)" || true
 	R -e "rwasm::build('./${SOURCEPKG}')"
 	BINARYPKG=${SOURCEPKG/.tar.gz/.tgz}
 	echo "binarypkg=$BINARYPKG" >> $GITHUB_OUTPUT

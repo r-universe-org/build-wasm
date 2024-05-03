@@ -1,4 +1,4 @@
-FROM ghcr.io/r-universe-org/webr:main
+FROM ghcr.io/r-wasm/webr:main
 
 # Add some new unmerged libs
 # RUN (cd /opt/webr/libs; git pull https://github.com/jeroen/webr nlopt; make nlopt; rm -rf download build )

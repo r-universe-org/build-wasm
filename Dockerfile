@@ -13,8 +13,10 @@ FROM ghcr.io/r-wasm/webr:main
 
 
 # Alternative workaround for libnode-dev conflicting with nodejs (see above)
-#RUN apt-get update && \
-#	apt-get install -y equivs lsb-release &&\
+RUN apt-get update && \
+	apt-get install -y equivs lsb-release
+
+
 #	equivs-control libnode-dev && \
 #	sed -i 's/Package:.*/Package: libnode-dev/' libnode-dev && \
 #	sed -i 's/# Provides:.*/Provides: libv8-dev/' libnode-dev && \

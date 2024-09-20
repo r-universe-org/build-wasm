@@ -53,8 +53,8 @@ RUN ln -sf /usr/bin/bash /bin/sh
 COPY test.sh /test.sh
 #RUN /test.sh
 
-# Hack for duckdb
-# RUN sed -i 's|$(R_HOME)/bin/R|R|' $(R RHOME)/share/make/shlib.mk
+# Temp workaround for https://github.com/emscripten-core/emscripten/issues/22571
+RUN sed -i.bak 's|#define TYPEOF|#define FT_TYPEOF|g' /opt/emsdk/upstream/emscripten/cache/sysroot/include/freetype2/config/ftconfig.h
 
 # Build packages
 ENTRYPOINT /entrypoint.sh

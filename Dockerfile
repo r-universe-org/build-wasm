@@ -32,9 +32,9 @@ RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps/noble | jq --slurp -r '
 	apt-get clean all
 
 # Setup Node, Emscripten & webR
-ENV PATH /opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH
-ENV EMSDK /opt/emsdk
-ENV WEBR_ROOT /opt/webr
+ENV PATH=/opt/emsdk:/opt/emsdk/upstream/emscripten:$PATH
+ENV EMSDK=/opt/emsdk
+ENV WEBR_ROOT=/opt/webr
 
 ENV R_LIBS_USER=/opt/R/current/lib/R/site-library
 
@@ -42,9 +42,8 @@ ENV R_LIBS_USER=/opt/R/current/lib/R/site-library
 COPY Renviron /opt/R/current/lib/R/etc/Renviron.site
 COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 
-# Install pak and rwasm
-RUN R -e 'install.packages("pak")'
-RUN R -e 'pak::pak("r-wasm/rwasm")'
+# Use devel-pak (until solver hangs are fixed)
+RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'
 
 # Set default shell to bash
 COPY entrypoint.sh /entrypoint.sh

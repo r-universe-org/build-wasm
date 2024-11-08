@@ -17,18 +17,24 @@ export R_LIBS_USER="${PWD}/pkglib"
 echo "::group::List installed R packages"
 R -e ".libPaths(); installed.packages()[,1:3]"
 echo "::endgroup::"
+
 echo "::group::List available wasm libraries"
 PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --list-all
 echo "::endgroup::"
+
 echo "::group::Test that pkg-config works"
 PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --libs --cflags gdal
 echo "::endgroup::"
 
-# For the GitHub Action
-if [ "$SOURCEPKG" ]; then
-	# Workaround for pak resolver hangs
-	R -e "install.packages(sub('_.*', '', '${SOURCEPKG}'), depends=TRUE)" || true
-	R -e "rwasm::build('./${SOURCEPKG}')"
-	BINARYPKG=${SOURCEPKG/.tar.gz/.tgz}
-	echo "binarypkg=$BINARYPKG" >> $GITHUB_OUTPUT
-fi
+echo "::group::Get native dependencies"
+# R -e "install.packages(sub('_.*', '', '${SOURCEPKG}'), depends=TRUE)" || true
+
+# (Re)build linux native binary (also ensures dev-deps are present)
+# This is expensive, maybe we should copy the binary from the previous job
+R -e "pak::pak('./${SOURCEPKG}')"
+echo "::endgroup::"
+
+# Compile WASM binary
+R -e "rwasm::build('./${SOURCEPKG}')"
+BINARYPKG=${SOURCEPKG/.tar.gz/.tgz}
+echo "binarypkg=$BINARYPKG" >> $GITHUB_OUTPUT

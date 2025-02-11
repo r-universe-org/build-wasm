@@ -6,11 +6,20 @@ local({
   }
 
   # NB: pak also adds cran and bioconductor automatically when not set already
-  repos <- c(
-    BIOC = binary_universe("https://bioc.r-universe.dev"),
-    PPM = sprintf("https://packagemanager.posit.co/cran/__linux__/%s/latest", distro),
-    CRAN = 'https://cloud.r-project.org'
-  )
+  cran_version <- Sys.getenv("CRAN_VERSION")
+  if(nchar(cran_version)){
+    repos <- c(
+      CRAN = sprintf("https://p3m.dev/cran/__linux__/%s/%s", distro, cran_version),
+      BIOC = binary_universe("https://bioc.r-universe.dev")
+    )
+  } else {
+    repos <- c(
+      BIOC = binary_universe("https://bioc.r-universe.dev"),
+      PPM = sprintf("https://packagemanager.posit.co/cran/__linux__/%s/latest", distro),
+      CRAN = 'https://cloud.r-project.org'
+    )
+  }
+
   if(nchar(Sys.getenv("MY_UNIVERSE"))){
     repos <- c(MY_UNIVERSE = binary_universe(Sys.getenv("MY_UNIVERSE")), repos)
   }

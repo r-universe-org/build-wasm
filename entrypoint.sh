@@ -29,9 +29,10 @@ echo "::endgroup::"
 echo "::group::Get native dependencies"
 # R -e "install.packages(sub('_.*', '', '${SOURCEPKG}'), depends=TRUE)" || true
 
-# (Re)build linux native binary (also ensures dev-deps are present)
-# This is expensive, maybe we should copy the binary from the previous job
-R -e "pak::pak('./${SOURCEPKG}')"
+# Ensures dev-deps are present
+R -e "pak::local_dev_deps('${SOURCEPKG}')"
+# TODO: We may skip this line if the above line is sufficient
+R -e "pak::pak('deps::${SOURCEPKG}', dependencies = TRUE)"
 echo "::endgroup::"
 
 # Compile WASM binary

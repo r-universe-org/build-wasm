@@ -26,6 +26,12 @@ echo "::group::Test that pkg-config works"
 PKG_CONFIG_LIBDIR="${WEBR_ROOT}/wasm/lib/pkgconfig" pkg-config --libs --cflags gdal
 echo "::endgroup::"
 
+if [[ "$(Rscript -e 'if ("rust" %in% pak::pkg_sysreqs(".")$packages$sysreq) cat("true")')" == "true" ]]; then
+  echo "::group::Update Rust"
+  rustup update
+  echo "::endgroup::"
+fi
+
 echo "::group::Get native dependencies"
 # R -e "install.packages(sub('_.*', '', '${SOURCEPKG}'), depends=TRUE)" || true
 

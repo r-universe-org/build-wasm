@@ -28,8 +28,7 @@ echo "::endgroup::"
 
 if [[ "$(Rscript -e 'if ("rust" %in% pak::pkg_sysreqs(".")$packages$sysreq) cat("true")')" == "true" ]]; then
   echo "::group::Update Rust"
-  rustup update
-  rustup update nightly
+  rustup update stable nightly
   echo "::endgroup::"
 fi
 

@@ -10,13 +10,6 @@ echo "Running fake X server on $DISPLAY"
 SOURCEPKG="${1:-$SOURCEPKG}"
 GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/stdout}
 
-# Make sure we have laste rust
-if [ "$NEED_CARGO" ]; then
-  echo "::group::Update Rust"
-  rustup update stable || true
-  echo "::endgroup::"
-fi
-
 # Use package cache dir
 export R_LIBS_USER="${PWD}/pkglib"
 

@@ -13,7 +13,7 @@ GITHUB_OUTPUT=${GITHUB_OUTPUT:-/dev/stdout}
 # Make sure we have laste rust
 if [ "$NEED_CARGO" ]; then
   echo "::group::Update Rust"
-  rustup update stable || true
+  rustup update stable nightly || true
   echo "::endgroup::"
 fi
 

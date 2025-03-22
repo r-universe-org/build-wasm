@@ -41,10 +41,9 @@ COPY Renviron /opt/R/current/lib/R/etc/Renviron.site
 COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 
 # Update emscripten rust from the parent container
-RUN rustup update stable
-
 # Workaround for https://github.com/rust-lang/rustup/issues/2417
-## RUN rustup toolchain uninstall nightly && rustup toolchain install nightly
+RUN rustup update stable &&\
+	rustup toolchain uninstall nightly && rustup toolchain install nightly
 
 # Use devel-pak (until solver hangs are fixed)
 RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'

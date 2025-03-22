@@ -38,7 +38,7 @@ echo "::group::Get native dependencies"
 
 # (Re)build linux native binary (also ensures dev-deps are present)
 # This is expensive, maybe we should copy the binary from the previous job
-R -e "pak::pak('./${SOURCEPKG}')"
+R -e "pak::pak('./${SOURCEPKG}')" || true
 echo "::endgroup::"
 
 # Compile WASM binary

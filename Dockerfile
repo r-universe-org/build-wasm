@@ -14,7 +14,7 @@ FROM ghcr.io/r-wasm/webr:main
 
 # Alternative workaround for libnode-dev conflicting with nodejs (see above)
 RUN apt-get update && \
-	apt-get install -y equivs lsb-release
+	apt-get install -y equivs lsb-release language-pack-en-base
 
 
 #	equivs-control libnode-dev && \

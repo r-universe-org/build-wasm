@@ -43,8 +43,7 @@ COPY Renviron /opt/R/current/lib/R/etc/Renviron.site
 COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
 
 # Use devel-pak (until solver hangs are fixed)
-#RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'
-RUN R -e 'install.packages("pak", lib = .Library, repos = "https://p3m.dev/cran/__linux__/noble/2025-04-01")'
+RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'
 
 # Set default shell to bash
 COPY entrypoint.sh /entrypoint.sh

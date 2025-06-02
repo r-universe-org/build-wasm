@@ -8,12 +8,15 @@ RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps/noble | jq --slurp -r '
 	apt-get install -y --no-install-recommends zstd xvfb $CRANLIBS && \
 	apt-get clean all
 
-# Set CRAN repo
-COPY Renviron /opt/R/current/lib/R/etc/Renviron.site
-COPY Rprofile /opt/R/current/lib/R/etc/Rprofile.site
+# Set CRAN repo, etc
+RUN \
+	git clone https://github.com/r-universe-org/base-image &&\
+	cp base-image/Rprofile /opt/R/current/lib/R/etc/Rprofile.site &&\
+	cp base-image/Renviron /opt/R/current/lib/R/etc/Renviron.site &&\
+	rm -R base-image
 
-# Use stable pack now again
-RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/stable/source/linux-gnu/x86_64")'
+# Update to latest pak
+RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'
 
 # Set default shell to bash
 RUN ln -sf /usr/bin/bash /bin/sh

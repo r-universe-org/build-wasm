@@ -1,4 +1,4 @@
-FROM ghcr.io/r-wasm/webr:main
+FROM ghcr.io/r-wasm/webr:v0.4.3
 
 # Alternative workaround
 RUN apt-get update && apt-get install -y lsb-release language-pack-en-base

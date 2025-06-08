@@ -1,6 +1,15 @@
 #!/bin/sh
 set -e
 
+# Needed to fix threading
+# See https://github.com/pola-rs/r-polars/blob/next/src/Makevars.in
+export CC=emcc
+export CFLAGS="-std=gnu11 -Oz -fvisibility=default"
+export CARGO_PROFILE_DEV_PANIC="abort"
+export CARGO_PROFILE_RELEASE_PANIC="abort"
+export RUSTFLAGS="$RUSTFLAGS -Zdefault-visibility=hidden"
+export CARGOBUILDFLAGS="-Zbuild-std=panic_abort,std"
+
 for arg in "$@"; do
   case "$arg" in
     "--manifest-path="*)
@@ -11,13 +20,27 @@ for arg in "$@"; do
     ;;
   esac
 done
-if [ "$1" = "build" ] && [ -z "$target" ]; then
-  targetdir=$(dirname ${manifest:-.})
-  echo "Setting --target to wasm32-unknown-emscripten for $targetdir"
-  /usr/local/cargo/bin/cargo "$@" --target=wasm32-unknown-emscripten
-  echo "Copying wasm32-unknown-emscripten/release files"
-  cd $targetdir/target
-  cp -Rfv wasm32-unknown-emscripten/* . || true
+
+targetdir=$(dirname ${manifest:-.})
+
+# Unvendor sources
+#unset CARGO_HOME
+rm -fv "${CARGO_HOME}/config.toml"
+
+#if [ -f "${CARGO_HOME}/config.toml" ]; then
+#  sed -i 's/source.crates-io/bla.bla/g' "${CARGO_HOME}/config.toml"
+#fi
+
+if [ "$1" = "build" ]; then
+  if [ -z "$target" ]; then
+    echo "Setting --target to wasm32-unknown-emscripten for $targetdir"
+    /usr/local/cargo/bin/cargo "$@" --target=wasm32-unknown-emscripten $CARGOBUILDFLAGS
+    echo "Copying wasm32-unknown-emscripten/release files"
+    cd $targetdir/target
+    cp -Rfv wasm32-unknown-emscripten/* . || true
+  else
+    /usr/local/cargo/bin/cargo "$@" $CARGOBUILDFLAGS
+  fi
 else
   /usr/local/cargo/bin/cargo "$@"
 fi

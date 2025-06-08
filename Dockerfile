@@ -12,12 +12,16 @@ RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps/noble | jq --slurp -r '
 RUN \
 	git clone https://github.com/r-universe-org/base-image &&\
 	cp base-image/Rprofile /opt/R/current/lib/R/etc/Rprofile.site &&\
-	cp base-image/Renviron /opt/R/current/lib/R/etc/Renviron.site &&\
 	rm -R base-image
 
 # Update to latest pak
 RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'
 
+# Add cargo shim
+COPY shims /shims
+RUN cp -v /shims/* "$(R RHOME)/library/rwasm/bin/"
+
 # Set default shell to bash
 RUN ln -sf /usr/bin/bash /bin/sh
+
 COPY test.sh /test.sh

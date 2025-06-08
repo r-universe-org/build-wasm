@@ -1,0 +1,23 @@
+#!/bin/sh
+set -e
+
+for arg in "$@"; do
+  case "$arg" in
+    "--manifest-path="*)
+    manifest="${arg:16}"
+    ;;
+    "--target="*)
+    target="$arg"
+    ;;
+  esac
+done
+if [ "$1" = "build" ] && [ -z "$target" ]; then
+  targetdir=$(dirname ${manifest:-.})
+  echo "Setting --target to wasm32-unknown-emscripten for $targetdir"
+  /usr/local/cargo/bin/cargo "$@" --target=wasm32-unknown-emscripten
+  echo "Copying wasm32-unknown-emscripten/release files"
+  cd $targetdir/target
+  cp -Rfv wasm32-unknown-emscripten/* . || true
+else
+  /usr/local/cargo/bin/cargo "$@"
+fi

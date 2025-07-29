@@ -1,7 +1,7 @@
 FROM ghcr.io/r-wasm/webr:main
 
-RUN git config --global pull.rebase true &&\
-	(cd /opt/webr/libs; git pull https://github.com/r-wasm/webr proxy-websockets; make curl; rm -rf download build)
+#RUN git config --global pull.rebase true &&\
+#	(cd /opt/webr/libs; git pull https://github.com/r-wasm/webr proxy-websockets; make curl; rm -rf download build)
 
 # Alternative workaround
 RUN apt-get update && apt-get install -y lsb-release language-pack-en-base

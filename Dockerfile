@@ -7,7 +7,7 @@ FROM ghcr.io/r-wasm/webr:main
 RUN apt-get update && apt-get install -y lsb-release language-pack-en-base
 
 # Install some common runtime libs
-RUN CRANLIBS=$(curl https://r-universe.dev/stats/sysdeps/noble | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
+RUN CRANLIBS=$(curl https://r-universe.dev/api/sysdeps/noble?stream=1 | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
 	apt-get install -y --no-install-recommends zstd xvfb $CRANLIBS && \
 	apt-get clean all
 

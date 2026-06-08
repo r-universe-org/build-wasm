@@ -1,7 +1,7 @@
 FROM ghcr.io/r-wasm/webr:main
 
 RUN git config --global pull.rebase true &&\
-	(cd /opt/webr/libs; git pull https://github.com/jeroen/webr protobuf; make protobuf; rm -rf download build)
+	(cd /opt/webr/libs; git pull https://github.com/jeroen/webr testing; rm /opt/webr/wasm/lib/libxml2.a; make libjq libxml2 libxslt protobuf; rm -rf download build)
 
 RUN /opt/R/current/bin/R -q -e 'pak::pak("r-wasm/rwasm", lib = .Library)'
 

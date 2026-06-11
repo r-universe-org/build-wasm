@@ -17,7 +17,7 @@ if [ "$1" = "build" ] && [ -z "$target" ]; then
   /usr/local/cargo/bin/cargo "$@" --target=wasm32-unknown-emscripten
   echo "Copying wasm32-unknown-emscripten/release files"
   cd $targetdir/target
-  cp -Rfv wasm32-unknown-emscripten/* . || true
+  cp -Rf wasm32-unknown-emscripten/* . || true
 else
   /usr/local/cargo/bin/cargo "$@"
 fi

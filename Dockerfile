@@ -3,7 +3,7 @@ FROM ghcr.io/r-wasm/webr:main
 RUN git config --global pull.rebase true &&\
 	(cd /opt/webr/libs; git pull https://github.com/jeroen/webr testing; rm /opt/webr/wasm/lib/libxml2.a; make libjq libxml2 libxslt protobuf; rm -rf download build)
 
-RUN /opt/R/current/bin/R -q -e 'pak::pak("r-wasm/rwasm", lib = .Library)'
+RUN /opt/R/current/bin/R -q -e 'pak::pak("jeroen/rwasm@cargo-shim", lib = .Library)'
 
 # Alternative workaround
 RUN apt-get update && apt-get install -y lsb-release language-pack-en-base
@@ -23,8 +23,8 @@ RUN \
 RUN R -e 'install.packages("pak", lib = .Library, repos = "https://r-lib.github.io/p/pak/devel/source/linux-gnu/x86_64")'
 
 # Add cargo shim
-COPY shims /shims
-RUN cp -v /shims/* "$(R RHOME)/library/rwasm/bin/"
+#COPY shims /shims
+#RUN cp -v /shims/* "$(R RHOME)/library/rwasm/bin/"
 
 # Set default shell to bash
 RUN ln -sf /usr/bin/bash /bin/sh

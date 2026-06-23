@@ -1,15 +1,15 @@
 FROM ghcr.io/r-wasm/webr:main
 
-RUN git config --global pull.rebase true &&\
-	(cd /opt/webr/libs; git pull https://github.com/jeroen/webr testing; rm /opt/webr/wasm/lib/libxml2.a; make libjq libxml2 libxslt protobuf; rm -rf download build)
+#RUN git config --global pull.rebase true &&\
+#	(cd /opt/webr/libs; git pull https://github.com/jeroen/webr testing; rm /opt/webr/wasm/lib/libxml2.a; make libjq libxml2 libxslt protobuf; rm -rf download build)
 
-RUN /opt/R/current/bin/R -q -e 'pak::pak("jeroen/rwasm@cargo-shim", lib = .Library)'
+RUN /opt/R/current/bin/R -q -e 'pak::pak("r-wasm/rwasm", lib = .Library)'
 
 # Alternative workaround
 RUN apt-get update && apt-get install -y lsb-release language-pack-en-base
 
 # Install some common runtime libs
-RUN CRANLIBS=$(curl https://r-universe.dev/api/sysdeps/noble?stream=1 | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
+RUN CRANLIBS=$(curl https://r-universe.dev/api/sysdeps/resolute?stream=1 | jq --slurp -r '.[].packages | flatten[]' | grep -v "libnode") &&\
 	apt-get install -y --no-install-recommends zstd xvfb $CRANLIBS && \
 	apt-get clean all
 

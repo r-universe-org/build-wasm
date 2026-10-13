@@ -1,7 +1,7 @@
 FROM ghcr.io/r-wasm/webr:main
 
 RUN git config --global pull.rebase true &&\
-	(cd /opt/webr/libs; git pull https://github.com/r-universe-org/webr-testing main; make oneTBB; make htslib; rm -rf download build)
+	(cd /opt/webr/libs; git pull https://github.com/r-universe-org/webr-testing main; make oneTBB; rm -rf download build)
 
 ENV RHTSLIB_RPATH=/opt/webr/wasm/lib/
 

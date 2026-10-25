@@ -4,6 +4,7 @@ RUN git config --global pull.rebase true &&\
 	(cd /opt/webr/libs; git pull https://github.com/r-universe-org/webr-testing main; make oneTBB; rm -rf download build)
 
 ENV RHTSLIB_RPATH=/opt/webr/wasm/lib/
+ENV RHDF5LIB_RPATH=/opt/webr/wasm/lib/
 
 #RUN /opt/R/current/bin/R -q -e 'pak::pak("r-wasm/rwasm#61", lib = .Library)'
 RUN /opt/R/current/bin/R -q -e 'pak::pak("r-wasm/rwasm", lib = .Library)'
